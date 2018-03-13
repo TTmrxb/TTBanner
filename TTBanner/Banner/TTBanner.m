@@ -16,10 +16,6 @@ static NSString * const kBannerCell = @"BannerCell";
 <UICollectionViewDataSource,
 UICollectionViewDelegate>
 
-{
-    __block NSInteger _currentIndex;
-}
-
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) TTTimer *timer;
 @property (nonatomic, assign) NSInteger itemCount;
@@ -40,30 +36,28 @@ UICollectionViewDelegate>
 - (instancetype)initWithFrame:(CGRect)frame {
     
     if (self = [super initWithFrame:frame]) {
-        _currentIndex = 0;
         _itemCount = 0;
         _scrollInterval = 3;
         _autoScroll = YES;
         _shouldLoop = YES;
         
         [self addSubview:self.collectionView];
-        
-        [self timerTick];
     }
     
     return self;
+}
+
+- (void)didMoveToSuperview {
+    
+    [super didMoveToSuperview];
+    [self reloadData];  //首次被加载到父视图，自身刷新数据。
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    if (self.dataSource && [self.dataSource respondsToSelector:@selector(numberOfItemsInBanner:)]) {
-        self.itemCount = [self.dataSource numberOfItemsInBanner:self];
-        return self.itemCount;
-    }
-    
-    return 0;
+    return self.itemCount;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -100,6 +94,19 @@ UICollectionViewDelegate>
 
 #pragma mark - Public Methods
 
+- (void)reloadData {
+    
+    if (!self.dataSource) return;
+    if ([self.dataSource respondsToSelector:@selector(numberOfItemsInBanner:)]) {
+        self.itemCount = [self.dataSource numberOfItemsInBanner:self];
+    }
+    if (self.itemCount == 0) return;
+    
+    [self.collectionView reloadData];
+    
+    [self timerTick];
+}
+
 - (void)resumeAutoScroll {
     
     if (self.autoScroll) {
@@ -124,21 +131,13 @@ UICollectionViewDelegate>
         return;
     }
     
+    if (self.itemCount < 2) {
+        return;
+    }
+    
+    __weak typeof(self) weakSelf = self;
     [self.timer tickProgress:^{
-        _currentIndex = _currentIndex + 1;
-        if (_currentIndex >= self.itemCount) {
-            _currentIndex = 0;
-        }
-        
-        BOOL animated = YES;
-        if (_currentIndex == 0) {
-            animated = NO;
-        }
-        
-        [self.collectionView
-         scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_currentIndex inSection:0]
-         atScrollPosition:UICollectionViewScrollPositionRight
-         animated:animated];
+        [weakSelf autoScrollToNextItem];
     }];
 }
 
@@ -146,6 +145,25 @@ UICollectionViewDelegate>
     
     [self.timer destroy];
     self.timer = nil;
+}
+
+- (void)autoScrollToNextItem {
+    
+    NSInteger currentIndex = self.collectionView.indexPathsForVisibleItems.firstObject.item;
+    NSInteger index = currentIndex + 1;
+    if (index >= self.itemCount) {
+        index = 0;
+    }
+    
+    BOOL animated = YES;
+    if (index == 0) {
+        animated = NO;
+    }
+    
+    [self.collectionView
+     scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]
+     atScrollPosition:UICollectionViewScrollPositionRight
+     animated:animated];
 }
 
 #pragma mark - Setter

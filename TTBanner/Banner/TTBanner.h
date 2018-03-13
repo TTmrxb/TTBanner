@@ -23,6 +23,8 @@
 @property (nonatomic, weak) id<TTBannerDataSource> dataSource;
 @property (nonatomic, weak) id<TTBannerDelegate> delegate;
 
+- (void)reloadData;
+
 /**
  继续自动滚动，只有 autoScroll 为真的时候，才起作用。
  */
