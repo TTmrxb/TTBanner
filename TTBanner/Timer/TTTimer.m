@@ -22,7 +22,7 @@
 - (instancetype)init {
     
     if (self = [super init]) {
-        _tickInterval = 0;
+        _tickInterval = 1;
         _isSuspend = YES;
     }
     
@@ -31,6 +31,7 @@
 
 - (void)tickProgress:(void(^)(void))progress {
     
+    __block NSInteger tickCount = 0;
     if (!self.timer) {
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
@@ -41,7 +42,8 @@
         dispatch_source_set_event_handler(self.timer, ^{
             if (progress) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    progress();
+                    if(tickCount != 0) progress();
+                    tickCount = tickCount + self.tickInterval;
                 });
             }
         });

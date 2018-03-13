@@ -51,6 +51,25 @@
     NSLog(@"图片 -- %@ -- 被点击", self.bannerArr[index]);
 }
 
+#pragma mark - Event Response
+
+- (IBAction)shouldAutoScroll:(UIButton *)sender {
+    
+    sender.selected = !sender.selected;
+    self.banner.autoScroll = !sender.selected;
+}
+
+- (IBAction)bannerPlay:(UIButton *)sender {
+    
+    sender.selected = !sender.selected;
+    if (sender.selected) {
+        [self.banner suspendAutoScroll];
+    }else {
+        [self.banner resumeAutoScroll];
+    }
+}
+
+
 #pragma mark - Getter
 
 - (NSArray *)bannerArr {
