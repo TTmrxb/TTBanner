@@ -31,6 +31,9 @@ UICollectionViewDelegate>
 @synthesize scrollInterval = _scrollInterval;
 @synthesize shouldLoop = _shouldLoop;
 
+@synthesize pageControlTintColor = _pageControlTintColor;
+@synthesize pageControlCurrentTintColor = _pageControlCurrentTintColor;
+
 - (void)dealloc {
     
     [self destoryTimer];
@@ -260,6 +263,18 @@ UICollectionViewDelegate>
     _shouldLoop = shouldLoop;
     
     [self reloadData];
+}
+
+- (void)setPageControlTintColor:(UIColor *)pageControlTintColor {
+    
+    _pageControlTintColor = pageControlTintColor;
+    self.pageControl.pageTintColor = self.pageControlTintColor;
+}
+
+- (void)setPageControlCurrentTintColor:(UIColor *)pageControlCurrentTintColor {
+    
+    _pageControlCurrentTintColor = pageControlCurrentTintColor;
+    self.pageControl.currentPageTintColor = self.pageControlCurrentTintColor;
 }
 
 #pragma mark - Getter

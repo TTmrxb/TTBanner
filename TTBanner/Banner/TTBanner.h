@@ -20,6 +20,11 @@
 /** 是否循环滚动 */
 @property (nonatomic, assign) BOOL shouldLoop;
 
+/** PageControl未选中项颜色 */
+@property (nonatomic, strong) UIColor *pageControlTintColor;
+/** PageControl选中项颜色 */
+@property (nonatomic, strong) UIColor *pageControlCurrentTintColor;
+
 @property (nonatomic, weak) id<TTBannerDataSource> dataSource;
 @property (nonatomic, weak) id<TTBannerDelegate> delegate;
 

@@ -89,6 +89,9 @@
         _banner.backgroundColor = [UIColor whiteColor];
         _banner.dataSource = self;
         _banner.delegate = self;
+        
+        _banner.pageControlTintColor = [UIColor cyanColor];
+        _banner.pageControlCurrentTintColor = [UIColor orangeColor];
 //        _banner.shouldLoop = NO;
     }
     
