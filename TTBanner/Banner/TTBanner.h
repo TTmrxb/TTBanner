@@ -54,6 +54,6 @@
 @protocol TTBannerDelegate <NSObject>
 
 @optional
-- (void)banner:(TTBanner *)banner didSelectAtIndex:(NSInteger)index;
+- (void)banner:(TTBanner *)banner didSelectedAtIndex:(NSInteger)index;
 
 @end

@@ -46,7 +46,7 @@
 
 #pragma mark - TTBannerDelegate
 
-- (void)banner:(TTBanner *)banner didSelectAtIndex:(NSInteger)index {
+- (void)banner:(TTBanner *)banner didSelectedAtIndex:(NSInteger)index {
     
     NSLog(@"图片 -- %@ -- 被点击, index = %ld", self.bannerArr[index], (long)index);
 }

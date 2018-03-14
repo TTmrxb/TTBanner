@@ -36,7 +36,7 @@ UICollectionViewDelegate>
 
 - (void)dealloc {
     
-    [self destoryTimer];
+    [self destroyTimer];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -59,13 +59,6 @@ UICollectionViewDelegate>
     [super didMoveToSuperview];
     
     [self reloadData];  //首次被加载到父视图，自身刷新数据。
-    
-    if (self.shouldLoop && self.itemCount > 1) {
-        [self.collectionView
-         scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]
-         atScrollPosition:UICollectionViewScrollPositionRight
-         animated:NO];
-    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -106,7 +99,7 @@ UICollectionViewDelegate>
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(banner:didSelectAtIndex:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(banner:didSelectedAtIndex:)]) {
         NSInteger item = indexPath.item;
         if (self.shouldLoop && self.itemCount > 1) {
             if (item == self.itemCount + 1) {
@@ -118,7 +111,7 @@ UICollectionViewDelegate>
             item = item - 1;
         }
         
-        [self.delegate banner:self didSelectAtIndex:item];
+        [self.delegate banner:self didSelectedAtIndex:item];
     }
 }
 
@@ -180,6 +173,13 @@ UICollectionViewDelegate>
     self.pageControl.numberOfPage = self.itemCount;
     [self.collectionView reloadData];
     
+    if (self.shouldLoop && self.itemCount > 1) {
+        [self.collectionView
+         scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]
+         atScrollPosition:UICollectionViewScrollPositionRight
+         animated:NO];
+    }
+    
     [self timerTick];
 }
 
@@ -201,7 +201,7 @@ UICollectionViewDelegate>
 
 - (void)timerTick {
     
-    [self destoryTimer];
+    [self destroyTimer];
     
     if (!self.autoScroll) {
         return;
@@ -217,7 +217,7 @@ UICollectionViewDelegate>
     }];
 }
 
-- (void)destoryTimer {
+- (void)destroyTimer {
     
     [self.timer destroy];
     self.timer = nil;
