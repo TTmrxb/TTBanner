@@ -48,7 +48,7 @@
 
 - (void)banner:(TTBanner *)banner didSelectAtIndex:(NSInteger)index {
     
-    NSLog(@"图片 -- %@ -- 被点击", self.bannerArr[index]);
+    NSLog(@"图片 -- %@ -- 被点击, index = %ld", self.bannerArr[index], (long)index);
 }
 
 #pragma mark - Event Response
@@ -88,6 +88,7 @@
         _banner.backgroundColor = [UIColor whiteColor];
         _banner.dataSource = self;
         _banner.delegate = self;
+//        _banner.shouldLoop = NO;
     }
     
     return _banner;

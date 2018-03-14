@@ -50,22 +50,46 @@ UICollectionViewDelegate>
 - (void)didMoveToSuperview {
     
     [super didMoveToSuperview];
+    
     [self reloadData];  //首次被加载到父视图，自身刷新数据。
+    
+    if (self.shouldLoop && self.itemCount > 1) {
+        [self.collectionView
+         scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]
+         atScrollPosition:UICollectionViewScrollPositionRight
+         animated:NO];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return self.itemCount;
+    if (self.shouldLoop) {
+        return self.itemCount > 1 ? self.itemCount + 2 : self.itemCount;
+    }else {
+        return self.itemCount;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     TTBannerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kBannerCell
                                                                    forIndexPath:indexPath];
+    
+    NSInteger item = indexPath.item;
     if (self.dataSource && [self.dataSource respondsToSelector:@selector(banner:viewForItemAtIndex:)]) {
-        cell.itemView = [self.dataSource banner:self viewForItemAtIndex:indexPath.item];
+        if (self.shouldLoop && self.itemCount > 1) {
+            if (item == self.itemCount + 1) {
+                item = 1;
+            }else if (item == 0) {
+                item = self.itemCount;
+            }
+            
+            item = item - 1;
+        }
+        
+        cell.itemView = [self.dataSource banner:self viewForItemAtIndex:item];
     }
     
     return cell;
@@ -76,11 +100,49 @@ UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(banner:didSelectAtIndex:)]) {
-        [self.delegate banner:self didSelectAtIndex:indexPath.item];
+        NSInteger item = indexPath.item;
+        if (self.shouldLoop && self.itemCount > 1) {
+            if (item == self.itemCount + 1) {
+                item = 1;
+            }else if (item == 0) {
+                item = self.itemCount;
+            }
+            
+            item = item - 1;
+        }
+        
+        [self.delegate banner:self didSelectAtIndex:item];
     }
 }
 
 #pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    NSInteger item = scrollView.contentOffset.x / [UIScreen mainScreen].bounds.size.width;
+    
+    if (self.shouldLoop && self.itemCount > 1) {
+        if (item == self.itemCount + 1) {
+            item = 1;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.collectionView
+                 scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0]
+                 atScrollPosition:UICollectionViewScrollPositionRight
+                 animated:NO];
+            });
+        }else if (item == 0) {
+            item = self.itemCount;
+            if (scrollView.contentOffset.x < 20) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self.collectionView
+                     scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0]
+                     atScrollPosition:UICollectionViewScrollPositionRight
+                     animated:NO];
+                });
+            }
+        }
+    }
+}
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     
@@ -149,21 +211,21 @@ UICollectionViewDelegate>
 
 - (void)autoScrollToNextItem {
     
-    NSInteger currentIndex = self.collectionView.indexPathsForVisibleItems.firstObject.item;
-    NSInteger index = currentIndex + 1;
-    if (index >= self.itemCount) {
-        index = 0;
-    }
-    
-    BOOL animated = YES;
-    if (index == 0) {
-        animated = NO;
+    NSInteger item = self.collectionView.indexPathsForVisibleItems.firstObject.item + 1;
+    if (self.shouldLoop && self.itemCount > 1) {
+        if (item > self.itemCount + 1) {
+            item = self.itemCount + 1;
+        }
+    }else {
+        if (item > self.itemCount - 1) {
+            item = self.itemCount - 1;
+        }
     }
     
     [self.collectionView
-     scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]
+     scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0]
      atScrollPosition:UICollectionViewScrollPositionRight
-     animated:animated];
+     animated:YES];
 }
 
 #pragma mark - Setter
@@ -185,6 +247,8 @@ UICollectionViewDelegate>
 - (void)setShouldLoop:(BOOL)shouldLoop {
     
     _shouldLoop = shouldLoop;
+    
+    [self reloadData];
 }
 
 #pragma mark - Getter
