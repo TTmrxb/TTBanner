@@ -7,8 +7,10 @@
 //
 
 #import "TTBanner.h"
+
 #import "TTBannerCell.h"
 #import "TTTimer.h"
+#import "TTPageControl.h"
 
 static NSString * const kBannerCell = @"BannerCell";
 
@@ -19,6 +21,7 @@ UICollectionViewDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) TTTimer *timer;
 @property (nonatomic, assign) NSInteger itemCount;
+@property (nonatomic, strong) TTPageControl *pageControl;
 
 @end
 
@@ -42,6 +45,7 @@ UICollectionViewDelegate>
         _shouldLoop = YES;
         
         [self addSubview:self.collectionView];
+        [self addSubview:self.pageControl];
     }
     
     return self;
@@ -142,6 +146,12 @@ UICollectionViewDelegate>
             }
         }
     }
+    
+    if (self.shouldLoop && self.itemCount > 1) {
+        self.pageControl.currentPage = item - 1;
+    }else {
+        self.pageControl.currentPage = item;
+    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -164,6 +174,7 @@ UICollectionViewDelegate>
     }
     if (self.itemCount == 0) return;
     
+    self.pageControl.numberOfPage = self.itemCount;
     [self.collectionView reloadData];
     
     [self timerTick];
@@ -269,7 +280,7 @@ UICollectionViewDelegate>
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.pagingEnabled = YES;
         _collectionView.alwaysBounceHorizontal = YES;
-        _collectionView.scrollsToTop = NO;
+        _collectionView.scrollsToTop = NO;  //防止与其他滚动视图回到顶部的手势冲突
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         
@@ -287,6 +298,25 @@ UICollectionViewDelegate>
     }
     
     return _timer;
+}
+
+- (TTPageControl *)pageControl {
+    
+    if (!_pageControl) {
+        CGFloat pageControlW = self.frame.size.width;
+        CGFloat pageControlH = 32.0;
+        CGFloat pageControlX = 0;
+        CGFloat pageControlY = self.frame.size.height - pageControlH;
+        _pageControl = [[TTPageControl alloc] initWithFrame:CGRectMake(pageControlX,
+                                                                       pageControlY,
+                                                                       pageControlW,
+                                                                       pageControlH)];
+        
+        _pageControl.userInteractionEnabled = NO;
+        _pageControl.autoresizingMask = UIViewAutoresizingNone;
+    }
+    
+    return _pageControl;
 }
 
 @end

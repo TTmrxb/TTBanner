@@ -76,6 +76,7 @@
     
     if (!_bannerArr) {
         _bannerArr = @[@"banner_1", @"banner_2", @"banner_3", @"banner_4"];
+//        _bannerArr = @[@"banner_1"];
     }
     
     return _bannerArr;

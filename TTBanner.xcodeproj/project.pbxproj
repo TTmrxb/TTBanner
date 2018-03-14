@@ -20,6 +20,7 @@
 		11E74D6A2054E93F00A834AD /* banner_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 11E74D662054E93F00A834AD /* banner_1.png */; };
 		11E74D6D2054E98E00A834AD /* TTBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E74D6C2054E98E00A834AD /* TTBanner.m */; };
 		11E74D732054FAFF00A834AD /* TTBannerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E74D712054FAFE00A834AD /* TTBannerCell.m */; };
+		E5A8AA6D2058F86E00303370 /* TTPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A8AA6C2058F86E00303370 /* TTPageControl.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,8 @@
 		11E74D6C2054E98E00A834AD /* TTBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTBanner.m; sourceTree = "<group>"; };
 		11E74D712054FAFE00A834AD /* TTBannerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTBannerCell.m; sourceTree = "<group>"; };
 		11E74D722054FAFE00A834AD /* TTBannerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBannerCell.h; sourceTree = "<group>"; };
+		E5A8AA6B2058F86E00303370 /* TTPageControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTPageControl.h; sourceTree = "<group>"; };
+		E5A8AA6C2058F86E00303370 /* TTPageControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTPageControl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,8 @@
 				11E74D6C2054E98E00A834AD /* TTBanner.m */,
 				11E74D722054FAFE00A834AD /* TTBannerCell.h */,
 				11E74D712054FAFE00A834AD /* TTBannerCell.m */,
+				E5A8AA6B2058F86E00303370 /* TTPageControl.h */,
+				E5A8AA6C2058F86E00303370 /* TTPageControl.m */,
 			);
 			path = Banner;
 			sourceTree = "<group>";
@@ -198,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5A8AA6D2058F86E00303370 /* TTPageControl.m in Sources */,
 				11E74D502054E90000A834AD /* ViewController.m in Sources */,
 				1131C27A205549F800DCB659 /* TTTimer.m in Sources */,
 				11E74D5B2054E90000A834AD /* main.m in Sources */,
