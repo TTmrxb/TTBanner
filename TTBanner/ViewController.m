@@ -12,6 +12,10 @@
 #define TT_SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define TT_SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
+//UI安全区域
+#define TT_TOP_SAFE_HEIGHT (CGFloat)(TT_SCREEN_HEIGHT < 800 ? 0 : 44.0)
+#define TT_BOTTOM_SAFE_HEIGHT (CGFloat)(TT_SCREEN_HEIGHT < 800 ? 0 : 34.0)
+
 @interface ViewController () <TTBannerDataSource, TTBannerDelegate>
 
 @property (nonatomic, copy) NSArray *bannerArr;
@@ -85,7 +89,10 @@
 - (TTBanner *)banner {
     
     if (!_banner) {
-        _banner = [[TTBanner alloc] initWithFrame:CGRectMake(0, 0, TT_SCREEN_WIDTH, 220.0)];
+        _banner = [[TTBanner alloc] initWithFrame:CGRectMake(0,
+                                                             TT_TOP_SAFE_HEIGHT,
+                                                             TT_SCREEN_WIDTH,
+                                                             220.0)];
         _banner.backgroundColor = [UIColor whiteColor];
         _banner.dataSource = self;
         _banner.delegate = self;

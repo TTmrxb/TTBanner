@@ -210,7 +210,7 @@ UICollectionViewDelegate>
     if (self.itemCount < 2) {
         return;
     }
-    
+
     __weak typeof(self) weakSelf = self;
     [self.timer tickProgress:^{
         [weakSelf autoScrollToNextItem];
