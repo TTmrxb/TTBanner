@@ -21,6 +21,7 @@
 		11E74D6D2054E98E00A834AD /* TTBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E74D6C2054E98E00A834AD /* TTBanner.m */; };
 		11E74D732054FAFF00A834AD /* TTBannerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E74D712054FAFE00A834AD /* TTBannerCell.m */; };
 		E5A8AA6D2058F86E00303370 /* TTPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A8AA6C2058F86E00303370 /* TTPageControl.m */; };
+		E5FA1F09205B997F001B891F /* demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = E5FA1F08205B997F001B891F /* demo.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		11E74D722054FAFE00A834AD /* TTBannerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTBannerCell.h; sourceTree = "<group>"; };
 		E5A8AA6B2058F86E00303370 /* TTPageControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTPageControl.h; sourceTree = "<group>"; };
 		E5A8AA6C2058F86E00303370 /* TTPageControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTPageControl.m; sourceTree = "<group>"; };
+		E5FA1F08205B997F001B891F /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 		11E74D4A2054E90000A834AD /* TTBanner */ = {
 			isa = PBXGroup;
 			children = (
+				E5FA1F07205B9978001B891F /* Demo */,
 				1131C277205549E800DCB659 /* Timer */,
 				11E74D622054E93300A834AD /* Resources */,
 				11E74D612054E91200A834AD /* Banner */,
@@ -125,6 +128,14 @@
 				11E74D642054E93E00A834AD /* banner_4.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		E5FA1F07205B9978001B891F /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				E5FA1F08205B997F001B891F /* demo.gif */,
+			);
+			path = Demo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11E74D6A2054E93F00A834AD /* banner_1.png in Resources */,
+				E5FA1F09205B997F001B891F /* demo.gif in Resources */,
 				11E74D582054E90000A834AD /* LaunchScreen.storyboard in Resources */,
 				11E74D692054E93F00A834AD /* banner_3.png in Resources */,
 				11E74D552054E90000A834AD /* Assets.xcassets in Resources */,
